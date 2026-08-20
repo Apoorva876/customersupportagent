@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from customersupportagent import smart_workflow
+from customersupportagent import smart_workflow, clear_conversation
 
 app = Flask(__name__)
 
@@ -20,6 +20,11 @@ def chat():
         return jsonify(result)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route("/clear", methods=["POST"])
+def clear_chat():
+    clear_conversation()
+    return jsonify({"status": "cleared"})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

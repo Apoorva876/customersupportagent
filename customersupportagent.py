@@ -11,6 +11,12 @@ URL = "https://integrate.api.nvidia.com/v1/chat/completions"
 MODEL = "meta/llama-3.1-8b-instruct"
 current_agent = None
 conversation_history = []
+
+def clear_conversation():
+    global current_agent, conversation_history
+    current_agent = None
+    conversation_history = []
+
 def call_model(system_prompt, user_message):
 
     data = {
@@ -284,7 +290,7 @@ def build_conversation():
 
     history_text = ""
 
-    # Keep the last 10 messages
+    
     recent_history = conversation_history[-10:]
 
     for item in recent_history:

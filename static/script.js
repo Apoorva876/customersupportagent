@@ -4,6 +4,8 @@ const userInput = document.getElementById('userInput');
 const sendBtn = document.getElementById('sendBtn');
 const voiceBtn = document.getElementById('voiceBtn');
 const newChatBtn = document.getElementById('newChatBtn');
+const clearChatBtn = document.getElementById('clearChatBtn');
+const clearHistoryBtn = document.getElementById('clearHistoryBtn');
 const voiceOutputToggle = document.getElementById('voiceOutputToggle');
 const chatHistory = document.getElementById('chatHistory');
 
@@ -259,6 +261,43 @@ newChatBtn.addEventListener('click', function () {
     currentSessionId = Date.now();
 });
 
+// ======================== CLEAR CHAT ========================
+clearChatBtn.addEventListener('click', function () {
+    const messages = chatMessages.querySelectorAll('.message-row');
+    if (messages.length === 0) return;
+
+    if (confirm('Are you sure you want to clear this chat?')) {
+        chatMessages.innerHTML = `
+            <div class="welcome-msg">
+                <div class="welcome-icon">👋</div>
+                <h2>Welcome to Customer Support</h2>
+                <p>Ask me anything about billing, orders, shipping, technical issues, or your account. You can also use your <strong>microphone</strong> to speak!</p>
+            </div>
+        `;
+
+        // Clear server-side conversation
+        fetch('/clear', { method: 'POST' })
+            .then(res => res.json())
+            .catch(err => console.error('Failed to clear server chat:', err));
+    }
+});
+
+// ======================== CLEAR ALL HISTORY ========================
+clearHistoryBtn.addEventListener('click', function () {
+    if (chatSessions.length === 0) return;
+
+    if (confirm('Are you sure you want to clear all chat history?')) {
+        chatSessions = [];
+        chatCounter = 0;
+        renderHistory();
+
+        // Clear server-side conversation
+        fetch('/clear', { method: 'POST' })
+            .then(res => res.json())
+            .catch(err => console.error('Failed to clear server chat:', err));
+    }
+});
+
 // ======================== CHAT HISTORY ========================
 function renderHistory() {
     // Remove all existing history items
@@ -267,20 +306,27 @@ function renderHistory() {
     chatSessions.forEach(function (session, index) {
         const item = document.createElement('div');
         item.className = 'history-item';
-        item.textContent = session.title;
-        item.addEventListener('click', function () {
-            // Save current state before switching
-            const currentMessages = chatMessages.querySelectorAll('.message-row');
-            if (currentMessages.length > 0) {
-                // Update existing session if it has content
-            }
 
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = session.title;
+        titleSpan.addEventListener('click', function () {
             chatMessages.innerHTML = session.html;
-
-            // Mark active
             chatHistory.querySelectorAll('.history-item').forEach(h => h.classList.remove('active'));
             item.classList.add('active');
         });
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'history-delete-btn';
+        deleteBtn.title = 'Delete chat';
+        deleteBtn.innerHTML = '&times;';
+        deleteBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            chatSessions.splice(index, 1);
+            renderHistory();
+        });
+
+        item.appendChild(titleSpan);
+        item.appendChild(deleteBtn);
         chatHistory.appendChild(item);
     });
 }
