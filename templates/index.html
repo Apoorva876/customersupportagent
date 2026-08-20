@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Support Agent</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Support Agents</h2>
+            </div>
+            <button class="new-chat-btn" id="newChatBtn">+ New Chat</button>
+            <div class="chat-history" id="chatHistory">
+                <p class="history-label">Recent Chats</p>
+            </div>
+            <div class="sidebar-footer">
+                <div class="agent-list">
+                    <span class="agent-tag general">General</span>
+                    <span class="agent-tag billing">Billing</span>
+                    <span class="agent-tag order">Order</span>
+                    <span class="agent-tag technical">Technical</span>
+                    <span class="agent-tag shipping">Shipping</span>
+                    <span class="agent-tag account">Account</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CHAT AREA -->
+        <main class="chat-main">
+
+            <!-- HEADER -->
+            <header class="chat-header">
+                <div class="header-left">
+                    <div class="avatar-circle">CS</div>
+                    <div>
+                        <h3>Customer Support</h3>
+                        <span class="status-dot"></span> Online
+                    </div>
+                </div>
+                <div class="header-right">
+                    <label class="toggle-label" title="Read replies with voice">
+                        <input type="checkbox" id="voiceOutputToggle">
+                        <span class="toggle-slider"></span>
+                        Voice Reply
+                    </label>
+                </div>
+            </header>
+
+            <!-- MESSAGES -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-msg">
+                    <div class="welcome-icon">👋</div>
+                    <h2>Welcome to Customer Support</h2>
+                    <p>Ask me anything about billing, orders, shipping, technical issues, or your account. You can also use your <strong>microphone</strong> to speak!</p>
+                </div>
+            </div>
+
+            <!-- INPUT AREA -->
+            <div class="chat-input-area">
+                <div class="input-wrapper">
+                    <button class="voice-btn" id="voiceBtn" title="Click to speak">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                            <line x1="12" x2="12" y1="19" y2="22"/>
+                        </svg>
+                    </button>
+                    <textarea id="userInput" placeholder="Type your message or click the mic..." rows="1"></textarea>
+                    <button class="send-btn" id="sendBtn" title="Send">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                        </svg>
+                    </button>
+                </div>
+                <p class="input-hint">Press Enter to send | Shift+Enter for new line | Click mic for voice input</p>
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
