@@ -69,13 +69,7 @@ Handles:
 
 ## Technologies Used
 
-- Python
-- Flask
-- NVIDIA API
-- Meta Llama 3.1 8B Instruct
-- HTML
-- CSS
-- JavaScript
+
 
 ## Project Structure
 
