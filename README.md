@@ -71,6 +71,7 @@ Handles:
 
 -python
 -flask
+-HTML
 
 ## Project Structure
 
