@@ -73,6 +73,7 @@ Handles:
 -flask
 -HTML
 -CSS
+-JAVASCRIPT
 
 ## Project Structure
 
