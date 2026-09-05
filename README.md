@@ -69,7 +69,7 @@ Handles:
 
 ## Technologies Used
 
-
+-python
 
 ## Project Structure
 
