@@ -70,6 +70,7 @@ Handles:
 ## Technologies Used
 
 -python
+-flask
 
 ## Project Structure
 
