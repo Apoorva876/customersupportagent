@@ -98,6 +98,7 @@ function autoResize() {
 function sendMessage() {
     const message = userInput.value.trim();
     if (!message) return;
+    const requestSessionId = currentSessionId;
 
     // Hide welcome
     const welcome = chatMessages.querySelector('.welcome-msg');
@@ -119,6 +120,7 @@ function sendMessage() {
     })
         .then(res => res.json())
         .then(data => {
+            if (requestSessionId !== currentSessionId) return;
             removeTyping();
             if (data.response) {
                 appendMessage('bot', data.response, data.agent);
@@ -130,6 +132,7 @@ function sendMessage() {
             }
         })
         .catch(() => {
+            if (requestSessionId !== currentSessionId) return;
             removeTyping();
             appendMessage('bot', 'Could not connect to the server. Make sure the app is running.');
         });
@@ -251,6 +254,8 @@ newChatBtn.addEventListener('click', function () {
     }
 
     // Clear chat
+    currentSessionId = Date.now();
+    removeTyping();
     chatMessages.innerHTML = `
         <div class="welcome-msg">
             <div class="welcome-icon">👋</div>
@@ -258,7 +263,11 @@ newChatBtn.addEventListener('click', function () {
             <p>Ask me anything about billing, orders, shipping, technical issues, or your account. You can also use your <strong>microphone</strong> to speak!</p>
         </div>
     `;
-    currentSessionId = Date.now();
+    fetch('/clear', { method: 'POST' })
+        .then(res => {
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        })
+        .catch(err => console.error('Failed to start a fresh chat:', err));
 });
 
 // ======================== CLEAR CHAT ========================

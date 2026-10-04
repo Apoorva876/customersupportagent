@@ -8,7 +8,7 @@ load_dotenv()
 API_KEY = os.getenv("NVIDIA_API_KEY")
 
 URL = "https://integrate.api.nvidia.com/v1/chat/completions"
-MODEL = "meta/llama-3.1-8b-instruct"
+MODEL = "nvidia/nemotron-3.5-lightning-30b-a3b"
 current_agent = None
 conversation_history = []
 
@@ -32,7 +32,8 @@ def call_model(system_prompt, user_message):
             }
         ],
         "temperature": 0.7,
-        "max_tokens": 300
+        "max_tokens": 300,
+        "chat_template_kwargs": {"enable_thinking": False}
     }
 
     request = urllib.request.Request(
